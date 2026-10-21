@@ -1,0 +1,7 @@
+# Tach thu muc nay khoi rewrite cua website o thu muc cha (WordPress, Laravel...)
+<IfModule mod_rewrite.c>
+  RewriteEngine Off
+</IfModule>
+DirectoryIndex index.html
+Options -MultiViews
+AddType text/javascript .js .mjs
