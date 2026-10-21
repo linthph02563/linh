@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Smart City 3D – Sa bàn tương tác</title>
+  <meta name="description" content="Sa bàn 3D tương tác, ảnh toàn cảnh và tour 360° – xem tòa, chọn tầng, chọn căn trực tuyến.">
+  <meta property="og:title" content="Smart City 3D – Sa bàn tương tác">
+  <meta property="og:description" content="Xoay sa bàn 3D, tham quan 360° và chọn căn hộ trực tuyến.">
+  <meta property="og:image" content="assets/toan-canh.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.min.js",
+        "three/addons/": "./vendor/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Màn hình tải -->
+  <div id="loader">
+    <div class="loader-brand">
+      <span class="brand-top" data-bind="brandTop"></span>
+      <span class="brand-main" data-bind="brandMain"></span>
+    </div>
+    <div class="loader-bar"><i id="loader-progress"></i></div>
+    <p class="loader-text">Đang dựng sa bàn 3D…</p>
+  </div>
+
+  <!-- Khung 3D -->
+  <div id="stage"></div>
+
+  <!-- Chế độ ảnh thực tế -->
+  <div id="photo-view" hidden>
+    <div id="photo-canvas">
+      <img id="photo-img" src="assets/toan-canh.jpg" alt="Ảnh toàn cảnh dự án" draggable="false">
+      <div id="photo-hotspots"></div>
+    </div>
+    <div class="photo-zoom">
+      <button data-zoom="in" title="Phóng to">+</button>
+      <button data-zoom="out" title="Thu nhỏ">−</button>
+      <button data-zoom="reset" title="Vừa màn hình">⤢</button>
+    </div>
+  </div>
+
+  <!-- Đầu trang -->
+  <header class="brand">
+    <span class="brand-top" data-bind="brandTop"></span>
+    <span class="brand-main" data-bind="brandMain"></span>
+  </header>
+
+  <div class="modes" role="tablist">
+    <button data-mode="photo" role="tab">Ảnh thực tế</button>
+    <button data-mode="model" role="tab" class="active">Sa bàn 3D</button>
+    <button data-mode="tour" role="tab">Tour 360°</button>
+  </div>
+
+  <!-- Menu trái -->
+  <nav class="nav" id="nav">
+    <button data-panel="overview"><i data-icon="home"></i><span>Tổng quan</span></button>
+    <button data-panel="location"><i data-icon="pin"></i><span>Vị trí</span></button>
+    <button data-panel="zones"><i data-icon="layers"></i><span>Phân khu</span></button>
+    <button data-panel="amenities"><i data-icon="leaf"></i><span>Tiện ích</span></button>
+    <button data-panel="search"><i data-icon="search"></i><span>Tìm căn</span></button>
+    <button data-panel="gallery"><i data-icon="image"></i><span>Thư viện</span></button>
+    <button data-panel="contact"><i data-icon="phone"></i><span>Liên hệ</span></button>
+  </nav>
+
+  <!-- Công cụ phải -->
+  <div class="tools" id="tools">
+    <div class="theme-switch" role="group" aria-label="Thời điểm">
+      <button data-theme="day" title="Ban ngày"><i data-icon="sun"></i></button>
+      <button data-theme="sunset" title="Hoàng hôn" class="active"><i data-icon="sunset"></i></button>
+      <button data-theme="night" title="Ban đêm"><i data-icon="moon"></i></button>
+    </div>
+    <button id="btn-rotate" class="active" title="Tự động xoay"><i data-icon="rotate"></i></button>
+    <button id="btn-labels" class="active" title="Bật/tắt nhãn"><i data-icon="tag"></i></button>
+    <button id="btn-shot" title="Chụp ảnh sa bàn"><i data-icon="camera"></i></button>
+    <button id="btn-full" title="Toàn màn hình"><i data-icon="expand"></i></button>
+    <button id="btn-reset" title="Về góc nhìn ban đầu"><i data-icon="target"></i></button>
+  </div>
+
+  <!-- Panel nội dung -->
+  <aside class="panel" id="panel" aria-hidden="true">
+    <button class="panel-close" id="panel-close" aria-label="Đóng">×</button>
+    <div class="panel-body" id="panel-body"></div>
+  </aside>
+
+  <!-- Tour 360° -->
+  <div class="tour-bar" id="tour-bar" hidden>
+    <div class="tour-title"><small>Đang tham quan</small><b id="tour-name"></b></div>
+    <div class="tour-list" id="tour-list"></div>
+    <button class="btn ghost" id="tour-exit">Thoát tour</button>
+  </div>
+
+  <!-- View từ căn hộ -->
+  <div class="unit-view-bar" id="unit-view-bar" hidden>
+    <span>Đang xem view từ căn <b id="unit-view-code"></b> – kéo để nhìn xung quanh</span>
+    <button class="btn" id="unit-view-exit">Thoát view</button>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+  <div class="hint" id="hint">Kéo để xoay • Cuộn để phóng to • Bấm vào tòa nhà để chọn căn</div>
+  <div class="compass" id="compass" title="Hướng Bắc"><div class="needle"><b>B</b></div></div>
+
+  <div class="quick-contact">
+    <a class="qc-call" id="qc-call" href="#"><i data-icon="phone"></i><span></span></a>
+    <a class="qc-zalo" id="qc-zalo" href="#" target="_blank" rel="noopener">Zalo</a>
+  </div>
+
+  <!-- Modal căn hộ -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card" id="modal-card"></div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" hidden>
+    <img id="lightbox-img" alt="">
+    <p id="lightbox-cap"></p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
