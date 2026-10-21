@@ -13,14 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="../favicon.ico">
   <link rel="stylesheet" href="style.css">
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "./vendor/three.module.min.js",
-        "three/addons/": "./vendor/jsm/"
-      }
-    }
-  </script>
 </head>
 <body>
   <!-- Màn hình tải -->
@@ -127,6 +119,29 @@
 
   <div class="toast" id="toast"></div>
 
+  <!-- Báo lỗi rõ ràng nếu trang không chạy được -->
+  <script>
+    (function () {
+      function show(msg) {
+        var l = document.getElementById('loader'); if (!l) return;
+        l.innerHTML = '<div style="max-width:560px;padding:24px;text-align:center;line-height:1.6;font-family:system-ui,sans-serif;color:#fbf6ef">' +
+          '<div style="font-size:42px">⚠️</div><h2 style="margin:8px 0">Trang chưa tải được</h2>' + msg + '</div>';
+      }
+      if (location.protocol === 'file:') {
+        var name = location.pathname.split('/').slice(-2, -1)[0] || '';
+        window.addEventListener('DOMContentLoaded', function () {
+          show('<p>Anh/chị đang mở trực tiếp file trên máy (<code>file://</code>) – trình duyệt chặn chế độ 3D trong trường hợp này.</p>' +
+            '<p>Hãy bật <b>Apache</b> trong XAMPP rồi mở địa chỉ:</p>' +
+            '<p style="font-size:20px"><a style="color:#d9a86c" href="http://localhost/' + name + '/">http://localhost/' + name + '/</a></p>');
+        });
+        return;
+      }
+      window.__appErr = function (e) { show('<p>Lỗi: <code>' + String(e && (e.message || e)).replace(/</g, '&lt;') + '</code></p><p>Hãy dùng Chrome, Edge hoặc Cốc Cốc bản mới nhất, rồi tải lại trang (Ctrl + F5).</p>'); };
+      window.addEventListener('error', function (e) { if (!window.__appReady) window.__appErr(e.error || e.message); });
+      window.addEventListener('unhandledrejection', function (e) { if (!window.__appReady) window.__appErr(e.reason); });
+      setTimeout(function () { if (!window.__appReady) window.__appErr('Hết thời gian chờ tải (kiểm tra đủ thư mục vendor/ và assets/ cạnh file index.html).'); }, 15000);
+    })();
+  </script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

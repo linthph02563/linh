@@ -1,6 +1,6 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import * as THREE from './vendor/three.module.min.js';
+import { OrbitControls } from './vendor/jsm/controls/OrbitControls.js';
+import { CSS2DRenderer, CSS2DObject } from './vendor/jsm/renderers/CSS2DRenderer.js';
 import { UNIT, SCENES, PLAN, GALLERY_ORDER } from './data.js';
 
 const $ = (s, el = document) => el.querySelector(s);
@@ -654,4 +654,4 @@ async function init() {
   SCENES.forEach((s) => loadTex(s.pano || s.img));
   window.i3 = { tour, state, goScene, setMode, houseCam, controls, startPlay };
 }
-init();
+init().then(() => { window.__appReady = true; }).catch((e) => { console.error(e); window.__appErr?.(e); });

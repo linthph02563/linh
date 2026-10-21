@@ -1,6 +1,6 @@
 // Dựng toàn bộ sa bàn 3D bằng hình khối thủ tục (không cần file model ngoài).
-import * as THREE from 'three';
-import { Reflector } from 'three/addons/objects/Reflector.js';
+import * as THREE from './vendor/three.module.min.js';
+import { Reflector } from './vendor/jsm/objects/Reflector.js';
 import { TOWERS, ZONES } from './data.js';
 
 export const FLOOR_H = 3;

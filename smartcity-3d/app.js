@@ -1,10 +1,10 @@
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
+import * as THREE from './vendor/three.module.min.js';
+import { OrbitControls } from './vendor/jsm/controls/OrbitControls.js';
+import { EffectComposer } from './vendor/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from './vendor/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from './vendor/jsm/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from './vendor/jsm/postprocessing/OutputPass.js';
+import { CSS2DRenderer, CSS2DObject } from './vendor/jsm/renderers/CSS2DRenderer.js';
 import { buildWorld, FLOOR_H, PODIUM_H, mulberry32 } from './scene.js';
 import * as D from './data.js';
 
@@ -854,4 +854,4 @@ async function init() {
   // tiện debug trên console trình duyệt
   window.sc3d = { THREE, scene, camera, controls, W, state, flyTo, selectTower, selectFloor, setTheme, setMode, openPanel, enterTour, HOME, skip: () => { if (tween) tween.k = 1; } };
 }
-init();
+init().then(() => { window.__appReady = true; }).catch((e) => { console.error(e); window.__appErr?.(e); });
