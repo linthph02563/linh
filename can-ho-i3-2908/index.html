@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Căn hộ I3-2908 – Tham quan trực tuyến</title>
+  <meta name="description" content="Tham quan trực tuyến căn hộ I3-2908 Imperia Smart City: tour từng phòng, sa bàn 3D và thư viện ảnh nội thất.">
+  <meta property="og:title" content="Căn hộ I3-2908 – Tham quan trực tuyến">
+  <meta property="og:description" content="Bấm để đi qua từng phòng, xem chi tiết nội thất và mặt bằng 3D.">
+  <meta property="og:image" content="assets/master-giuong.jpg">
+  <link rel="icon" href="../favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.min.js", "three/addons/": "./vendor/jsm/" } }
+  </script>
+</head>
+<body class="mode-tour">
+  <div id="loader">
+    <div class="loader-title"><small>Tham quan trực tuyến</small><b data-bind="title"></b></div>
+    <div class="loader-bar"><i id="loader-progress"></i></div>
+  </div>
+
+  <div id="backdrop"></div>
+  <div id="stage"></div>
+  <div id="spots"></div>
+  <div id="fade"></div>
+
+  <!-- Đầu trang -->
+  <header class="head">
+    <small><span data-bind="project"></span> · <span data-bind="building"></span></small>
+    <b data-bind="title"></b>
+  </header>
+
+  <div class="modes" role="tablist">
+    <button data-mode="tour" class="active">Tham quan</button>
+    <button data-mode="model">Sa bàn 3D</button>
+    <button data-mode="gallery">Thư viện ảnh</button>
+  </div>
+
+  <div class="tools">
+    <button id="btn-play" title="Tự động tham quan"><i data-icon="play"></i><span>Tự động</span></button>
+    <button id="btn-spots" class="active tour-only" title="Ẩn/hiện điểm"><i data-icon="dot"></i></button>
+    <button id="btn-walls" class="model-only active" title="Hạ/nâng tường"><i data-icon="wall"></i></button>
+    <button id="btn-top" class="model-only" title="Nhìn từ trên xuống"><i data-icon="top"></i></button>
+    <button id="btn-share" title="Sao chép link chia sẻ"><i data-icon="share"></i></button>
+    <button id="btn-full" title="Toàn màn hình"><i data-icon="expand"></i></button>
+    <button id="btn-info" class="primary" title="Thông tin căn"><i data-icon="info"></i><span>Thông tin căn</span></button>
+  </div>
+
+  <!-- Tên cảnh + điều khiển zoom -->
+  <div class="scene-title tour-only"><small>Đang xem</small><b id="scene-name"></b></div>
+  <div class="zoom tour-only">
+    <button data-zoom="in" title="Phóng to">+</button>
+    <button data-zoom="out" title="Thu nhỏ">−</button>
+  </div>
+
+  <!-- Mặt bằng nhỏ -->
+  <div class="minimap tour-only" id="minimap" title="Bấm vào điểm để chuyển phòng"></div>
+
+  <!-- Dải cảnh -->
+  <nav class="strip" id="strip"></nav>
+
+  <!-- Thư viện -->
+  <section class="gallery" id="gallery" hidden>
+    <div class="gallery-grid" id="gallery-grid"></div>
+  </section>
+  <div class="lightbox" id="lightbox" hidden>
+    <button class="lb-nav prev" data-lb="-1" aria-label="Ảnh trước">‹</button>
+    <figure><img id="lb-img" alt=""><figcaption><b id="lb-cap"></b><button class="btn small" id="lb-tour">Xem trong tour</button></figcaption></figure>
+    <button class="lb-nav next" data-lb="1" aria-label="Ảnh sau">›</button>
+    <button class="lb-close" data-lb="close" aria-label="Đóng">×</button>
+  </div>
+
+  <!-- Popover thông tin điểm -->
+  <div class="pop" id="pop" hidden><button class="pop-x" aria-label="Đóng">×</button><b id="pop-title"></b><p id="pop-text"></p></div>
+
+  <!-- Drawer thông tin căn -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <button class="drawer-x" id="drawer-x" aria-label="Đóng">×</button>
+    <div class="drawer-body" id="drawer-body"></div>
+  </aside>
+
+  <div class="quick">
+    <a id="q-call" class="q-call" href="#"><i data-icon="phone"></i><span></span></a>
+    <a id="q-zalo" class="q-zalo" href="#" target="_blank" rel="noopener">Zalo</a>
+  </div>
+
+  <div class="hint" id="hint">Kéo để nhìn quanh • Cuộn để phóng to • Bấm <i class="dot-go"></i> để sang phòng khác</div>
+  <div class="toast" id="toast"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
