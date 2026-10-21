@@ -24,3 +24,7 @@ Chụp bằng máy 360° (Insta360, Ricoh Theta…) hoặc xuất từ phần m�
 ## Chạy trên XAMPP
 Chép thư mục `can-ho-i3-2908` vào `C:\xampp\htdocs\`, bật Apache, mở http://localhost/can-ho-i3-2908/
 (phải mở qua `http://`, không bấm đúp file `index.html`).
+
+## Mở trang không cần XAMPP (Windows)
+Bấm đúp file **`MO-TRANG.bat`** trong thư mục này: một cửa sổ đen hiện lên và trình duyệt tự mở `http://localhost:5500/`.
+Giữ cửa sổ đen mở trong lúc xem, đóng nó để tắt. (Dùng PowerShell có sẵn trong Windows, không cần cài gì thêm.)

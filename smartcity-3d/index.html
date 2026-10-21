@@ -131,7 +131,8 @@
         var name = location.pathname.split('/').slice(-2, -1)[0] || '';
         window.addEventListener('DOMContentLoaded', function () {
           show('<p>Anh/chị đang mở trực tiếp file trên máy (<code>file://</code>) – trình duyệt chặn chế độ 3D trong trường hợp này.</p>' +
-            '<p>Hãy bật <b>Apache</b> trong XAMPP rồi mở địa chỉ:</p>' +
+            '<p><b>Cách nhanh nhất:</b> mở thư mục <b>' + name + '</b> và bấm đúp file <b>MO-TRANG.bat</b> – trang sẽ tự mở.</p>' +
+            '<p>Hoặc bật <b>Apache</b> trong XAMPP rồi mở:</p>' +
             '<p style="font-size:20px"><a style="color:#d9a86c" href="http://localhost/' + name + '/">http://localhost/' + name + '/</a></p>');
         });
         return;

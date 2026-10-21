@@ -46,3 +46,7 @@ app.js       – điều khiển camera, panel, tìm căn, tour, ảnh
 assets/      – ảnh dự án
 vendor/      – Three.js r160 (MIT)
 ```
+
+## Mở trang không cần XAMPP (Windows)
+Bấm đúp file **`MO-TRANG.bat`** trong thư mục này: một cửa sổ đen hiện lên và trình duyệt tự mở `http://localhost:5500/`.
+Giữ cửa sổ đen mở trong lúc xem, đóng nó để tắt. (Dùng PowerShell có sẵn trong Windows, không cần cài gì thêm.)
